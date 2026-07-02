@@ -1,0 +1,2893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Candidate Profile Taxonomy Form</title>
+  <style>
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --primary: #4f46e5;
+  --primary-light: #e0e7ff;
+  --secondary: #6b7280;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Header */
+.header {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.save-status {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  min-width: 80px;
+  text-align: right;
+}
+
+.save-status.saved {
+  color: var(--success);
+}
+
+.save-status.saving {
+  color: var(--warning);
+}
+
+.header-subtitle {
+  margin: 12px 0 0 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.progress-bar {
+  margin-top: 16px;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+}
+
+.btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+/* Main content */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 80px;
+}
+
+/* Section */
+.section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 16px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.section-header:hover {
+  background: #f3f4f6;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.section-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.section-toggle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.section.collapsed .section-toggle {
+  transform: rotate(-90deg);
+}
+
+.section-body {
+  padding: 12px;
+}
+
+.section.collapsed .section-body {
+  display: none;
+}
+
+/* Skill card */
+.skill-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.skill-card:last-child {
+  margin-bottom: 0;
+}
+
+.skill-header {
+  padding: 14px 16px;
+  background: #fafafa;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.skill-header:hover {
+  background: #f3f4f6;
+}
+
+.skill-title-wrap {
+  flex: 1;
+}
+
+.skill-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.skill-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.tag-roll-up {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.tag-composite {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.tag-boundary {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.skill-definition {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 6px 0 0 0;
+}
+
+.skill-toggle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.skill-card.collapsed .skill-toggle {
+  transform: rotate(-90deg);
+}
+
+.skill-body {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.skill-card.collapsed .skill-body {
+  display: none;
+}
+
+.skill-rating-summary {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.rating-pill {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.rating-pill.filled {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+/* Children */
+.children-list {
+  margin-top: 16px;
+  padding-left: 12px;
+  border-left: 3px solid var(--border);
+}
+
+.child-card {
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.child-card:last-child {
+  margin-bottom: 0;
+}
+
+.child-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.child-definition {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin: 0 0 12px 0;
+}
+
+/* Form fields */
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scale-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.scale-help:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.field-select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: white;
+  color: var(--text);
+  font-family: var(--font);
+  width: 100%;
+}
+
+.field-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.field-definition {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  line-height: 1.35;
+  min-height: 1.2em;
+}
+
+.text-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.text-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.match-terms {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.match-terms strong {
+  color: var(--text);
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--surface);
+  border-radius: var(--radius);
+  max-width: 520px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.modal h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.2rem;
+}
+
+.scale-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.scale-table th,
+.scale-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.scale-table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg);
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  z-index: 90;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .app {
+    max-width: 1100px;
+    padding: 24px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-body {
+    padding: 20px;
+  }
+
+  .field-row {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .skill-body .field-row {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .knowledge-row .field-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .app {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 14px;
+  }
+
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .btn {
+    padding: 7px 10px;
+    font-size: 0.85rem;
+  }
+
+  .skill-header,
+  .skill-body,
+  .child-card {
+    padding: 12px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-main">
+        <h1>Candidate Profile Taxonomy</h1>
+        <div class="header-actions">
+          <span id="save-status" class="save-status">Loading...</span>
+          <button class="btn btn-secondary" id="btn-export">Export JSON</button>
+          <button class="btn btn-secondary" id="btn-import">Import JSON</button>
+          <button class="btn btn-danger" id="btn-reset">Reset</button>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+        <span class="progress-text" id="progress-text">0% rated</span>
+      </div>
+      <p class="header-subtitle">
+        Rate skills and knowledge on the fly. Tap any scale label to see its definition. Changes auto-save.
+      </p>
+    </header>
+
+    <input type="file" id="file-import" accept="application/json" hidden>
+
+    <main class="main" id="main">
+      <!-- Sections rendered here -->
+    </main>
+
+    <footer class="footer">
+      <button class="btn btn-primary" id="btn-export-bottom">Save to file</button>
+    </footer>
+  </div>
+
+  <div class="modal" id="scale-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-title">Scale Definition</h2>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+// Embedded taxonomy data
+const TAXONOMY_DATA = {
+  "sections": [
+    {
+      "title": "C1. Investigation & Analysis",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "Analytical & critical thinking",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Reasoning about complex/ambiguous information. The three leaves below tend to co-move; rate the parent, split a leaf only if it diverges.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_1",
+              "type": "leaf",
+              "parent": "Analytical & critical thinking",
+              "name": "Pattern recognition",
+              "tags": [],
+              "definition": "Detect regularities, structures, or anomalies in complex or ambiguous data.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Intake §1.1; research + operations",
+              "evidence": "Intake §1.1; research and operations experience",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "identify patterns"
+            },
+            {
+              "id": "skill_2",
+              "type": "leaf",
+              "parent": "Analytical & critical thinking",
+              "name": "Analytical reasoning",
+              "tags": [],
+              "definition": "Break a problem into parts and reason through them logically.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Intake §1.1; research + operations",
+              "evidence": "Intake §1.1; research and operations experience",
+              "caveats": "Shares evidence with pattern recognition — rate together unless they diverge",
+              "notes": "—",
+              "match_terms": "think analytically"
+            },
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "Analytical & critical thinking",
+              "name": "Critical evaluation & synthesis",
+              "tags": [],
+              "definition": "Reconcile contradictory sources into one coherent, defensible position.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Academic literature work",
+              "evidence": "Academic literature work",
+              "caveats": "—",
+              "notes": "Excel at reconciling conflicting sources",
+              "match_terms": "think critically"
+            }
+          ]
+        },
+        {
+          "id": "skill_4",
+          "type": "parent",
+          "name": "Investigation & problem diagnosis",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Finding the real cause and reasoning forward when the answer is unknown.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "Investigation & problem diagnosis",
+              "name": "Root-cause analysis",
+              "tags": [],
+              "definition": "Identify the underlying cause of a problem/failure rather than treating symptoms.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Operations; technical troubleshooting",
+              "evidence": "Operations experience; technical troubleshooting",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "troubleshoot; \"identify problems\""
+            },
+            {
+              "id": "skill_6",
+              "type": "leaf",
+              "parent": "Investigation & problem diagnosis",
+              "name": "Reasoning under uncertainty (first-principles)",
+              "tags": [],
+              "definition": "Reason from foundational truths rather than analogy/assumption when information is incomplete.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Intake §1.4 (research→architect→eliminate)",
+              "evidence": "Intake §1.4",
+              "caveats": "Distinct from tolerating ambiguity — this is the method",
+              "notes": "Uses first-principles reasoning as intellectual competition in everyday life",
+              "match_terms": "cope with uncertainty; \"first-principles reasoning\""
+            },
+            {
+              "id": "skill_7",
+              "type": "leaf",
+              "parent": "Investigation & problem diagnosis",
+              "name": "Clue-chasing / hypothesis-driven probing",
+              "tags": [],
+              "definition": "Follow a lead or cue, form a hypothesis, and plan what to do with it.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Stated core interest; intake §1.1, §2.2",
+              "evidence": "Self-directed projects; intake §1.1, §2.2",
+              "caveats": "Core \"detective\" instinct",
+              "notes": "Loses track of time doing this",
+              "match_terms": "(AI-derived); \"conduct investigation\""
+            }
+          ]
+        },
+        {
+          "id": "skill_8",
+          "type": "parent",
+          "name": "Adversarial analysis",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Deliberately attacking a system/plan/argument to expose weakness.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_9",
+              "type": "leaf",
+              "parent": "Adversarial analysis",
+              "name": "Weakness & failure-mode identification",
+              "tags": [],
+              "definition": "Spot loopholes, bad design, and where something will break.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Intake §1.1 (sees what's wrong before others); self-directed projects",
+              "evidence": "Self-directed projects; intake §1.1",
+              "caveats": "Genuinely sensitive to lazy/inferior design",
+              "notes": "Natural critic/auditor",
+              "match_terms": "(AI-derived); identify risks (adjacent)"
+            },
+            {
+              "id": "skill_10",
+              "type": "leaf",
+              "parent": "Adversarial analysis",
+              "name": "Devil's-advocate stress-testing",
+              "tags": [],
+              "definition": "Pressure-test logic by arguing the uncomfortable counter-position.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Self-described default role; intake §2.2",
+              "evidence": "Consistent pattern",
+              "caveats": "—",
+              "notes": "Falls naturally into this role with teams",
+              "match_terms": "(AI-derived)"
+            },
+            {
+              "id": "skill_11",
+              "type": "leaf",
+              "parent": "Adversarial analysis",
+              "name": "(bundle of the adversarial leaves above)",
+              "tags": [],
+              "definition": "Testing systems, plans, or logic by deliberately looking for weaknesses and failure modes. Kept as one quick-read entry so a job ad saying \"red teaming\" matches directly. Rating below = demonstrated practice, not the ceiling of the component skills.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Solved a few problems by hacking my own stuff with success; OpenAI account; intake §1.1, §2.2",
+              "evidence": "Self-directed projects; OpenAI account",
+              "caveats": "No formal/enterprise red-team experience; instinct is natural, practice is limited",
+              "notes": "Matcher: do not read this as high-maturity red teaming; the transferable strengths are in the component rows above",
+              "match_terms": "(AI-derived; red team expert is an occupation, not used)"
+            }
+          ]
+        },
+        {
+          "id": "skill_12",
+          "type": "parent",
+          "name": "Reading people & behaviour",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Applying behavioural knowledge to real people (the knowledge itself is in C7).",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_13",
+              "type": "leaf",
+              "parent": "Reading people & behaviour",
+              "name": "Inferring intent / motive / anomaly",
+              "tags": [],
+              "definition": "Infer intention, motivation, or behavioural anomaly from cues and context.",
+              "level": "Proven",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Psychology background; intake §1.1",
+              "evidence": "Psychology background; intake §1.1",
+              "caveats": "Natural instinct for reading body language",
+              "notes": "Behavioural-science motivation comes naturally",
+              "match_terms": "cognitive psychology (application); \"behavioural analysis\"; \"threat-actor profiling\" (application → C7 cyber)"
+            }
+          ]
+        },
+        {
+          "id": "skill_14",
+          "type": "parent",
+          "name": "Precision language analysis",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Close reading for what is inconsistent or structurally flawed.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_15",
+              "type": "leaf",
+              "parent": "Precision language analysis",
+              "name": "Detecting language & structural flaws",
+              "tags": [],
+              "definition": "Detect subtle inconsistencies, ambiguities, and structural flaws in language.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Intake §1.1 (linguistic analysis); QA feedback on audio annotation for AI training; high linguistic/reading-comprehension scores",
+              "evidence": "Intake §1.1; audio annotation QA feedback; linguistic assessment results",
+              "caveats": "—",
+              "notes": "Excel at spotting language inconsistencies, praised for precision and speed",
+              "match_terms": "interpret information; \"linguistic QA\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C2. Scientific & Research Methods",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "Scientific method",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Running a rigorous investigation end-to-end.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "MRes/MSc training; independent AI evaluation",
+          "evidence": "MRes/MSc training",
+          "caveats": "—",
+          "notes": "Roll-up of the stages below",
+          "match_terms": "apply scientific methods",
+          "children": [
+            {
+              "id": "skill_1",
+              "type": "leaf",
+              "parent": "Scientific method",
+              "name": "Hypothesis framing",
+              "tags": [],
+              "definition": "Turn a vague problem into a precise, testable question/hypothesis.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"formulate research hypotheses\""
+            },
+            {
+              "id": "skill_2",
+              "type": "leaf",
+              "parent": "Scientific method",
+              "name": "Study / experiment design",
+              "tags": [],
+              "definition": "Choose a method, control variables, and plan the procedure before execution.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "MRes/MSc; advanced neurolab training; designing studies to minute detail",
+              "evidence": "MRes/MSc training; advanced neurolab training",
+              "caveats": "—",
+              "notes": "The stage that diverges upward from the roll-up",
+              "match_terms": "scientific research methodology"
+            },
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "Scientific method",
+              "name": "Data collection / measurement",
+              "tags": [],
+              "definition": "Execute the procedure and gather data cleanly.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"collect data\""
+            },
+            {
+              "id": "skill_4",
+              "type": "leaf",
+              "parent": "Scientific method",
+              "name": "Data analysis",
+              "tags": [],
+              "definition": "Apply analytical/statistical reasoning to raw results.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"perform data analysis\""
+            },
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "Scientific method",
+              "name": "Interpreting & defending conclusions",
+              "tags": [],
+              "definition": "Draw conclusions from evidence and acknowledge the limits.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived)"
+            }
+          ]
+        },
+        {
+          "id": "skill_6",
+          "type": "parent",
+          "name": "Literature research",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Working with the existing body of published knowledge.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_7",
+              "type": "leaf",
+              "parent": "Literature research",
+              "name": "Literature review & synthesis",
+              "tags": [],
+              "definition": "Survey, evaluate, and synthesise published academic literature on a topic.",
+              "level": "Proven",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "MRes/MSc — not active research currently; model intact",
+              "evidence": "MRes/MSc training",
+              "caveats": "Not active research currently; model intact",
+              "notes": "—",
+              "match_terms": "perform scientific research"
+            }
+          ]
+        },
+        {
+          "id": "skill_8",
+          "type": "parent",
+          "name": "Analytical writing",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Producing written output from analysis. Technical/analytical writing lives here, not in C6.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_9",
+              "type": "leaf",
+              "parent": "Analytical writing",
+              "name": "Analytical reports",
+              "tags": [],
+              "definition": "Produce written reports presenting evidence, reasoning, and conclusions.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Academic report writing; AI evaluation work; intake §1.3",
+              "evidence": "Academic report writing; AI evaluation work; intake §1.3",
+              "caveats": "ESCO tag corrected — old develop scientific research protocols was wrong (a protocol is a pre-study plan, not a report)",
+              "notes": "—",
+              "match_terms": "write scientific publications; \"analytical reporting\""
+            },
+            {
+              "id": "skill_10",
+              "type": "leaf",
+              "parent": "Analytical writing",
+              "name": "Technical writing",
+              "tags": [],
+              "definition": "Written analysis precise and accessible to technically literate readers.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Academic writing; AI evaluation reports",
+              "evidence": "Academic writing; AI evaluation reports",
+              "caveats": "Moved here from Communication (same underlying skill)",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"technical documentation\""
+            }
+          ]
+        },
+        {
+          "id": "skill_11",
+          "type": "parent",
+          "name": "Knowledge management",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Structuring information so it can be reused.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_12",
+              "type": "leaf",
+              "parent": "Knowledge management",
+              "name": "Building structured knowledge bases",
+              "tags": [],
+              "definition": "Create structured repositories of information and documentation for reuse.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "This pipeline; intake forms",
+              "evidence": "This pipeline; intake forms",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "organise information, objects and resources"
+            }
+          ]
+        },
+        {
+          "id": "skill_13",
+          "type": "parent",
+          "name": "Explaining complex knowledge",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Making the complex understandable to non-experts.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_14",
+              "type": "leaf",
+              "parent": "Explaining complex knowledge",
+              "name": "Translating to plain language",
+              "tags": [],
+              "definition": "Explain complex concepts in accessible language for non-expert audiences.",
+              "level": "Proven",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "_TODO confirm context and recency_",
+              "evidence": "_TODO confirm context and recency_",
+              "caveats": "Needs an example to recall whether this occurred at work level",
+              "notes": "—",
+              "match_terms": "advise others; \"explain complex information to non-experts\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C3. AI & LLM Work",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "LLM interaction design",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Steering language models toward useful output.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_1",
+              "type": "leaf",
+              "parent": "LLM interaction design",
+              "name": "Prompt engineering",
+              "tags": [],
+              "definition": "Craft prompts and interaction patterns to steer LLMs toward useful outputs.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Self-directed AI work; this pipeline",
+              "evidence": "Self-directed AI work; this pipeline",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"design AI prompts\""
+            }
+          ]
+        },
+        {
+          "id": "skill_2",
+          "type": "parent",
+          "name": "LLM evaluation",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Judging model output quality.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "LLM evaluation",
+              "name": "Overall LLM output evaluation",
+              "tags": [],
+              "definition": "Judge LLM outputs for accuracy, reasoning validity, and hallucination.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Understand fundamentally what is needed for eval, but haven't applied much of scoring cards and more advanced. I have let AI score other AI and set up eval systems. My learning curve is more practice and validation, plus optimising. My own evaluation of LLM has been mostly focused on linguistic skills, hands-on debating reasoning and setting traps, investigating hallucination on hobby level. I have found a few trend lines in older models and I applied much of my neuro training to set up testing and plan experimental testing with LLMs. I initiated my own personal project test centre but it never came into fruition and models advanced a lot. My own computational power is limited. I focused a lot on self-hosted models as well. Investigated capacity of smaller models quite early. This project was put on hold as the technology shifted a lot.",
+              "evidence": "Self-directed eval projects; personal project test centre (on hold); neuro training applied to LLM testing",
+              "caveats": "Hobby-level; no enterprise eval experience",
+              "notes": "—",
+              "match_terms": "(emerging; no ESCO term yet)"
+            },
+            {
+              "id": "skill_4",
+              "type": "leaf",
+              "parent": "LLM evaluation",
+              "name": "Accuracy evaluation",
+              "tags": [],
+              "definition": "Check whether an LLM output matches facts, ground truth, or intended meaning.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived)"
+            },
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "LLM evaluation",
+              "name": "Reasoning-validity evaluation",
+              "tags": [],
+              "definition": "Check whether an LLM's chain of reasoning is valid and consistent.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived)"
+            },
+            {
+              "id": "skill_6",
+              "type": "leaf",
+              "parent": "LLM evaluation",
+              "name": "Hallucination detection",
+              "tags": [],
+              "definition": "Identify when an LLM generates fabricated or unsupported content.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived)"
+            },
+            {
+              "id": "skill_7",
+              "type": "leaf",
+              "parent": "LLM evaluation",
+              "name": "Evaluation-framework / benchmark design",
+              "tags": [],
+              "definition": "Design repeatable tests, metrics, and benchmarks to assess model performance.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "This is a critical skill I'm learning as we speak. The learning curve is primarily which tools are most optimal and design decisions on expected output. I'm very keen on understanding what the framework looks like at OpenAI HQ. I imagine they are applying more advanced ML code. I'm very motivated to learn everything and work with this actively. Testing AI and LLM would be ideal type of work.",
+              "evidence": "Self-directed learning; no formal benchmark ownership yet",
+              "caveats": "Critical skill currently being learned",
+              "notes": "ESCO tag corrected — old develop scientific research protocols did not fit",
+              "match_terms": "(emerging); \"design evaluation frameworks / benchmarks\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C4. Software & Technical",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "Software & code",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Working with code and software systems (directing, not owning production).",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_1",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Reading / critiquing code",
+              "tags": [],
+              "definition": "Read, understand, and critique code without writing production code as a primary responsibility.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "Python scripts, review; main.py collaboration. I'm vibe coding and I'm usually looking at others' scripts and code to get a sense of what they have done. I can read any code and get an initial educated good sense of what it is doing and the attempt. Today with the help of AI, this process is different and I'm directing the AI and it translates larger and faster volumes while I make architectural decisions and sometimes surgical edits.",
+              "evidence": "Python scripts; main.py collaboration; vibe coding experience",
+              "caveats": "Reads logic but does not write production code from scratch",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"code review (read-level)\""
+            },
+            {
+              "id": "skill_2",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Scripting / automation",
+              "tags": [],
+              "definition": "Write small scripts to automate tasks and glue tools together (language-agnostic).",
+              "level": "Active (AI-assisted) · Ramp (from scratch)",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "I would not claim that I can start writing Python code from scratch and explain all code to someone else. I simply read the logic of the code and have a fair understanding of the fundamentals of programming. I try to automate most things via scripts, the language is irrelevant — whatever tool works best.",
+              "evidence": "Python scripts for automation; directed AI use vs. independent authoring",
+              "caveats": "Cannot write Python from scratch and explain all code to someone else",
+              "notes": "_TODO confirm recency and solo output_",
+              "match_terms": "problem-solving with digital tools; \"task automation scripting\""
+            },
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Systems-architecture thinking",
+              "tags": [],
+              "definition": "Decide what to build and how components should interact, without necessarily building it.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Intake §2.2; pipeline design decisions. This is the part I enjoy in Vibe Coding and discussion with AI.",
+              "evidence": "Intake §2.2; pipeline design decisions",
+              "caveats": "Enjoys architectural decisions in AI-assisted coding",
+              "notes": "—",
+              "match_terms": "systems thinking"
+            },
+            {
+              "id": "skill_4",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Working with APIs",
+              "tags": [],
+              "definition": "Configure, debug, and use APIs to connect tools and services.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "I'm configuring against APIs all the time, and setting up scripts with API. Investigating communication and log issues related to API and model behaviour. I have never coded something from scratch, unless Vibe Coding where AI is creating everything. API part is nothing more than setting up an endpoint address and troubleshoot network signals. I have done some minor network monitoring via Chrome dev console and OpenAI. I managed to legally trick the OpenAI API using available tools in a slightly different intended way; it allowed me to get access to my own account despite my email being inaccessible.",
+              "evidence": "API configuration and troubleshooting; Chrome dev console; OpenAI API",
+              "caveats": "Uses tools via APIs, not raw HTTP authoring",
+              "notes": "Unsure what \"working with APIs\" means in practical job terms",
+              "match_terms": "(AI-derived); \"integrate APIs\""
+            },
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Directing agent / workflow pipelines",
+              "tags": [],
+              "definition": "Design and manage multi-step automated workflows and agent behaviours.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "I have several hobby projects on my system which are me testing out automation workflows with different agent config. One larger project was put on hold — a personal File Detective with second-brain capacity. Problem is self-hosted capacity and cloud privacy. Never worked with or had to contemplate effects on enterprise scale or deeper security features, as my system is local and I'm doing root-level power-user work.",
+              "evidence": "Several hobby automation projects; personal File Detective project (on hold)",
+              "caveats": "Local/hobby scale only; no enterprise security or scale experience",
+              "notes": "_TODO confirm recency_",
+              "match_terms": "(AI-derived); \"AI workflow orchestration\""
+            },
+            {
+              "id": "skill_6",
+              "type": "leaf",
+              "parent": "Software & code",
+              "name": "Production software engineering",
+              "tags": [
+                "boundary"
+              ],
+              "definition": "Build and maintain production-grade software codebases.",
+              "level": "Boundary",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Boundary",
+              "story": "Not a builder/maintainer of production codebases. I don't like the coding part only for the sake of coding — it has to belong to creating something useful. I don't want to be responsible for making important code work on software that is largely local. I'm more about inventing things, seeing if I can get something to work that lets me do other stuff. The golden key is a full AI assistant you dialogue with and it makes the digital thing based on your directions. The coding part is fun when you attempt something new. I can vibe-code something for others, but production codebase is larger-industry, multi-complex architecture.",
+              "evidence": "Vibe coding for personal projects; no production codebase maintenance",
+              "caveats": "Will not own production codebases as a primary responsibility",
+              "notes": "Excluded by preference, not raw ability — read Willing, not Level",
+              "match_terms": "—"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C5. Operations & Management",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "Acute problem-solving",
+          "tags": [],
+          "definition": "Acute problem-solving under pressure; maintaining function when plans fail; rapid prioritisation.",
+          "level": "Active",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "Willing",
+          "story": "I feel very sharp and improved decisions when acute stress kicks in.",
+          "evidence": "Intake §1.7 (performs best at acute stress)",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "think quickly",
+          "children": []
+        },
+        {
+          "id": "skill_1",
+          "type": "parent",
+          "name": "Process & quality",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Designing and safeguarding how work gets done.",
+          "level": "Proven",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "Heavy part of advanced neurolab training; trained to think of every step before executing an experiment; applying science training to any context outside the lab.",
+          "evidence": "MRes/MSc training; advanced neurolab training",
+          "caveats": "Derived from scientific lab procedures, applied outside the lab",
+          "notes": "Leaves below inherit this roll-up until rated",
+          "match_terms": "(roll-up)",
+          "children": [
+            {
+              "id": "skill_2",
+              "type": "leaf",
+              "parent": "Process & quality",
+              "name": "Process / protocol design",
+              "tags": [],
+              "definition": "Map steps, dependencies, and failure points before execution.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "design processes"
+            },
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "Process & quality",
+              "name": "Process optimisation",
+              "tags": [],
+              "definition": "Find leaks, waste, or failure points and redesign the process.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "_TODO confirm specific examples_",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "Need concrete examples to rate",
+              "match_terms": "optimise business processes"
+            },
+            {
+              "id": "skill_4",
+              "type": "leaf",
+              "parent": "Process & quality",
+              "name": "Documentation",
+              "tags": [],
+              "definition": "Capture what was built or found so others can use it without you.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "document work processes"
+            },
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "Process & quality",
+              "name": "Quality control",
+              "tags": [],
+              "definition": "Enforce reproducible standards and catch deviations.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "manage quality"
+            }
+          ]
+        },
+        {
+          "id": "skill_6",
+          "type": "parent",
+          "name": "Logistics / operational planning",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Coordinating physical/sequential dependencies, vendors, timing, and packaging.",
+          "level": "Proven",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "Reluctant",
+          "story": "At ArtnDeco I ran the entire workflow of packaging, planning, timing and shipping — plus customer support — for shipping second-hand furniture worldwide from our farm HQ. I did not enjoy this part; mostly practical, boring procedures, with stress that stops only when the customer confirms satisfaction. I stopped because I needed intellectual stimulation more than practical problem-solving of physical items.",
+          "evidence": "ArtnDeco global shipping operation; fragile furniture and marble tables; multi-vendor coordination and price negotiations",
+          "caveats": "Did not enjoy this part; practical and boring procedures",
+          "notes": "Context-dependent: can be intoxicating like planning a heist, or boring physical logistics",
+          "match_terms": "(roll-up)",
+          "children": [
+            {
+              "id": "skill_7",
+              "type": "leaf",
+              "parent": "Logistics / operational planning",
+              "name": "Vendor / supplier management",
+              "tags": [],
+              "definition": "Coordinate and negotiate with external suppliers.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "manage suppliers"
+            },
+            {
+              "id": "skill_8",
+              "type": "leaf",
+              "parent": "Logistics / operational planning",
+              "name": "Timing & scheduling",
+              "tags": [],
+              "definition": "Sequence tasks so dependencies line up on time.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "manage schedule of tasks"
+            },
+            {
+              "id": "skill_9",
+              "type": "leaf",
+              "parent": "Logistics / operational planning",
+              "name": "Coordination of dependencies",
+              "tags": [],
+              "definition": "Keep interlocking physical/sequential parts in sync.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "coordinate operational activities"
+            },
+            {
+              "id": "skill_10",
+              "type": "leaf",
+              "parent": "Logistics / operational planning",
+              "name": "Packaging & fulfilment",
+              "tags": [],
+              "definition": "Prepare and ship goods through to delivery completion.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived)"
+            }
+          ]
+        },
+        {
+          "id": "skill_11",
+          "type": "parent",
+          "name": "Team & project leadership",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Direction-setting, delegation, delivery tracking, training others.",
+          "level": "Proven",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "Ran my own franchise with 300+ senior staffing veterans that worked on behalf of me. Periodically ran a team of 2–3 doing handyman and local storage logistics at ArtnDeco. Trained a few people in marble stone repair and correct lifting techniques.",
+          "evidence": "Franchise with 300+ staff; ArtnDeco 2–3 person team; trained people in marble repair and lifting",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "(roll-up)",
+          "children": [
+            {
+              "id": "skill_12",
+              "type": "leaf",
+              "parent": "Team & project leadership",
+              "name": "Direction-setting",
+              "tags": [],
+              "definition": "Set goals, priorities, and direction for a team.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "set organisational objectives"
+            },
+            {
+              "id": "skill_13",
+              "type": "leaf",
+              "parent": "Team & project leadership",
+              "name": "Delegation",
+              "tags": [],
+              "definition": "Assign work and trust others to deliver it.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "delegate activities"
+            },
+            {
+              "id": "skill_14",
+              "type": "leaf",
+              "parent": "Team & project leadership",
+              "name": "Delivery tracking",
+              "tags": [],
+              "definition": "Monitor progress and ensure work reaches completion.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "monitor work"
+            },
+            {
+              "id": "skill_15",
+              "type": "leaf",
+              "parent": "Team & project leadership",
+              "name": "Training / developing others",
+              "tags": [],
+              "definition": "Bring people up to a standard through instruction.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "train employees"
+            }
+          ]
+        },
+        {
+          "id": "skill_16",
+          "type": "parent",
+          "name": "Financial & resource management",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Target-setting, spend tracking, resource allocation with real stakes.",
+          "level": "Aware",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "Reluctant",
+          "story": "—",
+          "evidence": "Limited — conceptual understanding, no real ownership.",
+          "caveats": "—",
+          "notes": "Would not enjoy as a main task; necessary when running your own company",
+          "match_terms": "manage financial and material resources",
+          "children": [
+            {
+              "id": "skill_17",
+              "type": "leaf",
+              "parent": "Financial & resource management",
+              "name": "Budgeting / target-setting",
+              "tags": [],
+              "definition": "Set financial targets and plans.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "manage budgets"
+            },
+            {
+              "id": "skill_18",
+              "type": "leaf",
+              "parent": "Financial & resource management",
+              "name": "Spend tracking",
+              "tags": [],
+              "definition": "Monitor expenditure against plan.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "monitor financial accounts"
+            },
+            {
+              "id": "skill_19",
+              "type": "leaf",
+              "parent": "Financial & resource management",
+              "name": "Resource allocation",
+              "tags": [],
+              "definition": "Distribute limited resources across competing needs.",
+              "level": "—",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "—",
+              "story": "—",
+              "evidence": "—",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "manage financial and material resources"
+            },
+            {
+              "id": "skill_20",
+              "type": "leaf",
+              "parent": "Financial & resource management",
+              "name": "Bookkeeping / financial admin",
+              "tags": [
+                "boundary"
+              ],
+              "definition": "Record-keeping for compliance; financial admin; transactional accuracy.",
+              "level": "Boundary",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Boundary",
+              "story": "—",
+              "evidence": "Doable but money-only; not a path (intake §1.5, §5.1)",
+              "caveats": "—",
+              "notes": "Excluded by preference, not ability",
+              "match_terms": "—"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C6. Communication & People",
+      "kind": "skills",
+      "items": [
+        {
+          "id": "skill_0",
+          "type": "parent",
+          "name": "Written communication",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Direct, honest written exchange.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_1",
+              "type": "leaf",
+              "parent": "Written communication",
+              "name": "Giving direct, critical feedback",
+              "tags": [],
+              "definition": "Provide clear, honest critical feedback to others.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Willing",
+              "story": "Self-described; consistent pattern",
+              "evidence": "Self-described; consistent pattern",
+              "caveats": "—",
+              "notes": "—",
+              "match_terms": "(AI-derived); \"provide constructive feedback\""
+            }
+          ]
+        },
+        {
+          "id": "skill_2",
+          "type": "parent",
+          "name": "Verbal & facilitation",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Speaking to and guiding people in real time.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_3",
+              "type": "leaf",
+              "parent": "Verbal & facilitation",
+              "name": "Verbal presentation",
+              "tags": [],
+              "definition": "Present complex findings verbally so an audience can follow.",
+              "level": "Active",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Willing",
+              "story": "Self-described as good. I enjoy it and the intellectual challenge of teaching something to an audience and seeing which method increases understanding.",
+              "evidence": "_TODO confirm recency and context_",
+              "caveats": "Self-described; enjoys the intellectual challenge",
+              "notes": "—",
+              "match_terms": "address an audience"
+            },
+            {
+              "id": "skill_4",
+              "type": "leaf",
+              "parent": "Verbal & facilitation",
+              "name": "Workshop facilitation / structured discussion",
+              "tags": [],
+              "definition": "Lead and structure group discussions or workshops.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Willing",
+              "story": "I know exactly what I want from a workshop, and how to establish a structured discussion — training from my science background. I'm a very good debater, skilled at syllogistic reasoning and breaking down language and logic. Very aware of the skills a good moderator needs. Never practised it significantly beyond private matters. I would not mind the endeavour.",
+              "evidence": "Science background training; debate and syllogistic reasoning experience",
+              "caveats": "Limited solo delivery; mostly private practice",
+              "notes": "_TODO confirm — limited solo delivery_",
+              "match_terms": "moderate a discussion"
+            },
+            {
+              "id": "skill_5",
+              "type": "leaf",
+              "parent": "Verbal & facilitation",
+              "name": "1-on-1 coaching / mentoring",
+              "tags": [],
+              "definition": "Guide an individual's development through focused one-on-one interaction.",
+              "level": "Ramp",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Seek",
+              "story": "Told I can be great at motivating and coaching one-on-one when I believe in a person and see competence. I would love to mentor. Experience in private relations and spontaneous life events. Some working-life experience coaching senior people in finding their work motivations and trusting their skillsets. Received feedback that many senior staffers enjoyed the working culture. It comes naturally to coach someone to find their inner strength when I sense capacity.",
+              "evidence": "Feedback from senior staffers; coaching in private and work contexts",
+              "caveats": "Mostly private/spontaneous; some work experience",
+              "notes": "_TODO confirm_",
+              "match_terms": "instruct others; \"mentoring\""
+            }
+          ]
+        },
+        {
+          "id": "skill_6",
+          "type": "parent",
+          "name": "Executive communication",
+          "tags": [
+            "roll-up"
+          ],
+          "definition": "Upward, strategic communication to decision-makers.",
+          "level": "—",
+          "fit": "—",
+          "source": "—",
+          "condition": "—",
+          "willing": "—",
+          "story": "—",
+          "evidence": "—",
+          "caveats": "—",
+          "notes": "—",
+          "match_terms": "—",
+          "children": [
+            {
+              "id": "skill_7",
+              "type": "leaf",
+              "parent": "Executive communication",
+              "name": "Managing up / executive summaries",
+              "tags": [
+                "boundary"
+              ],
+              "definition": "Summarise and communicate upward to decision-makers concisely and strategically.",
+              "level": "Boundary",
+              "fit": "—",
+              "source": "—",
+              "condition": "—",
+              "willing": "Boundary",
+              "story": "Finds it hollow; not a fit (intake §1.6)",
+              "evidence": "—",
+              "caveats": "Finds it hollow; not a fit",
+              "notes": "Excluded by preference — capability not the limiter",
+              "match_terms": "—"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "C7. Domain Knowledge",
+      "kind": "knowledge",
+      "items": [
+        {
+          "id": "knowledge_0",
+          "type": "knowledge",
+          "name": "Neuroscience / cognitive science",
+          "tags": [],
+          "definition": "The nervous system and mental processes (perception, memory, decision-making).",
+          "depth": "Proven",
+          "currency": "Dormant-intact",
+          "source": "—",
+          "story": "MRes/MSc academic depth; not in active research — model is intact",
+          "evidence": "MRes/MSc training",
+          "caveats": "Not in active research — model intact",
+          "notes": "—",
+          "match_terms": "cognitive psychology"
+        },
+        {
+          "id": "knowledge_1",
+          "type": "knowledge",
+          "name": "Behavioural science / psychology",
+          "tags": [],
+          "definition": "Human behaviour and the mental processes that drive it.",
+          "depth": "Proven",
+          "currency": "Recent",
+          "source": "—",
+          "story": "Applied background; self-directed study",
+          "evidence": "Applied background; self-directed study",
+          "caveats": "—",
+          "notes": "Occupation title behavioural scientist used only as a domain label here",
+          "match_terms": "(knowledge)"
+        },
+        {
+          "id": "knowledge_2",
+          "type": "knowledge",
+          "name": "AI safety / alignment",
+          "tags": [],
+          "definition": "Principles for ensuring AI systems behave in line with human intent and values.",
+          "depth": "Working",
+          "currency": "Active",
+          "source": "—",
+          "story": "Self-directed applied work; ongoing",
+          "evidence": "Self-directed applied work; ongoing",
+          "caveats": "No matching skill row yet — add one in C3 if you want AI-safety jobs to match on action, not just knowledge",
+          "notes": "—",
+          "match_terms": "cognitive computing"
+        },
+        {
+          "id": "knowledge_3",
+          "type": "knowledge",
+          "name": "Clinical / medical research methods",
+          "tags": [],
+          "definition": "Methods to study health, disease, and treatments in clinical settings.",
+          "depth": "Proven",
+          "currency": "Rusty",
+          "source": "—",
+          "story": "Academic training; not recent practice",
+          "evidence": "Academic training",
+          "caveats": "Not recent practice",
+          "notes": "—",
+          "match_terms": "(knowledge)"
+        },
+        {
+          "id": "knowledge_4",
+          "type": "knowledge",
+          "name": "Cybersecurity / threat analysis",
+          "tags": [],
+          "definition": "Security threats and the behavioural patterns of threat actors.",
+          "depth": "Aware",
+          "currency": "Dormant-intact",
+          "source": "—",
+          "story": "Interest + conceptual only; no delivery record",
+          "evidence": "Interest + conceptual only",
+          "caveats": "No delivery record",
+          "notes": "Behavioural side of this reads as a C1 skill (\"inferring intent / anomaly\")",
+          "match_terms": "investigation research methods"
+        },
+        {
+          "id": "knowledge_5",
+          "type": "knowledge",
+          "name": "Software development practices",
+          "tags": [],
+          "definition": "Processes, tools, and conventions to build and maintain software.",
+          "depth": "Aware",
+          "currency": "Recent",
+          "source": "—",
+          "story": "Conceptual; read and critique, not build",
+          "evidence": "Conceptual only",
+          "caveats": "Does not build",
+          "notes": "Pairs with C4 read/critique + scripting skills",
+          "match_terms": "(knowledge)"
+        },
+        {
+          "id": "knowledge_6",
+          "type": "knowledge",
+          "name": "Business operations",
+          "tags": [],
+          "definition": "Practical management of the activities that keep a business running.",
+          "depth": "Proven",
+          "currency": "Dormant-intact",
+          "source": "—",
+          "story": "Hands-on; not current primary role",
+          "evidence": "Hands-on experience",
+          "caveats": "Not current primary role",
+          "notes": "—",
+          "match_terms": "(knowledge)"
+        }
+      ]
+    }
+  ]
+};
+</script>
+<script>
+/**
+ * Candidate Profile Taxonomy Form
+ * Interactive rating form with auto-save, export/import, and scale definitions.
+ */
+
+const SCALES = {
+  level: {
+    title: "Level — Readiness",
+    description: "Not 'how good am I?' but 'what can I hand over, and how quickly?' Evidence + recency anchored.",
+    options: [
+      { value: "Active", label: "Active", test: "I do this now, regularly, to a standard others rely on.", scenario: "Current, load-bearing work an employer depends on." },
+      { value: "Practising", label: "Practising", test: "I'm doing it now, but self-directed / lower-stakes.", scenario: "Daily hobby or learning — real currency, no external validation yet." },
+      { value: "Proven", label: "Proven", test: "Did it to a standard others depended on; not current.", scenario: "Excellent 3 years ago, untouched since. Days–weeks warm-up restores full speed." },
+      { value: "Applied", label: "Applied", test: "Done it successfully a few times in real conditions.", scenario: "Did x once / a few y on occasions and it worked — not guaranteed on demand." },
+      { value: "Ramp", label: "Ramp", test: "Understand it, touched it, never owned it end-to-end.", scenario: "Weeks–months of structured practice before reliable delivery." },
+      { value: "Aware", label: "Aware", test: "Know what it is; near-zero on execution.", scenario: "Growth potential, not current capability." },
+      { value: "Boundary", label: "Boundary", test: "I won't do this as a primary responsibility.", scenario: "See hard nos." },
+    ],
+  },
+  fit: {
+    title: "Fit — Affective / Energy Relationship",
+    description: "What does doing it feel like, and what does it do to my energy?",
+    options: [
+      { value: "Flow", label: "Flow", feels: "Fully absorbed, time vanishes, I gain energy — hyperfocus territory.", energy: "positive / high" },
+      { value: "Meditative", label: "Meditative", feels: "A ritual I control; structured repetition that centres and sharpens focus.", energy: "positive / engaged-calm" },
+      { value: "Restorative", label: "Restorative", feels: "Light, pleasant, low-stakes; actively recovers my energy.", energy: "positive / low" },
+      { value: "Neutral", label: "Neutral", feels: "Fine. No strong pull either way.", energy: "centre" },
+      { value: "Draining", label: "Draining", feels: "I can do it well, but it depletes me — sustainable only in bursts.", energy: "negative / low" },
+      { value: "Aversive", label: "Aversive", feels: "Capable, but the task itself feels unpleasant; I do it only when necessary.", energy: "negative / mixed" },
+      { value: "Understimulating", label: "Understimulating", feels: "Too simple or dull to hold me; I drift to other things.", energy: "negative / low (boredom)" },
+    ],
+  },
+  source: {
+    title: "Source — How the skill was acquired",
+    description: "How the skill was acquired.",
+    options: [
+      { value: "Native", label: "Native", meaning: "Temperament / personality-driven; comes naturally with little or no formal training." },
+      { value: "Theoretical", label: "Theoretical", meaning: "Learned through formal education / study; I know the principles." },
+      { value: "Practical", label: "Practical", meaning: "Built hands-on, in real conditions." },
+      { value: "Observed", label: "Observed", meaning: "Learned by watching or assisting someone else; no full solo ownership." },
+      { value: "Transferred", label: "Transferred", meaning: "Acquired in an adjacent domain and carried over — same competence, different label." },
+    ],
+  },
+  condition: {
+    title: "Condition — What makes performance hold or break",
+    description: "What makes performance hold or break.",
+    options: [
+      { value: "Interest-gated", label: "Interest-gated", meaning: "Genuinely interested → 210% hyperfocus. Not interested → I drift and scatter." },
+      { value: "Novelty-driven", label: "Novelty-driven", meaning: "Energised by new / unsolved problems; lose attention once it's routine." },
+      { value: "Urgency-activated", label: "Urgency-activated", meaning: "I engage and perform best under deadline / acute pressure; low urgency → procrastination." },
+      { value: "Challenge-calibrated", label: "Challenge-calibrated", meaning: "Needs to be hard enough to engage — too easy bores me, too far overwhelms." },
+      { value: "Medication-supported", label: "Medication-supported", meaning: "Reliable when medicated; markedly harder to initiate or sustain unmedicated." },
+      { value: "Stakes-sharpened", label: "Stakes-sharpened", meaning: "Real stakes / acute stress improve my focus and output." },
+      { value: "Stakes-fragile", label: "Stakes-fragile", meaning: "Capable, but high stakes / visibility trigger anxiety that degrades or makes me avoid it." },
+      { value: "Structure-dependent", label: "Structure-dependent", meaning: "Thrives with external scaffolding; flounders when fully open-ended." },
+      { value: "Autonomy-dependent", label: "Autonomy-dependent", meaning: "Needs freedom to self-direct; micromanagement or rigid process kills the drive." },
+    ],
+  },
+  willing: {
+    title: "Willing — Desire vs. Ability",
+    description: "Separates desire from ability so boundary items aren't misread as low skill.",
+    options: [
+      { value: "Seek", label: "Seek", meaning: "Actively wants." },
+      { value: "Willing", label: "Willing", meaning: "Would do it." },
+      { value: "Neutral", label: "Neutral", meaning: "No strong preference." },
+      { value: "Reluctant", label: "Reluctant", meaning: "Can, but prefers not." },
+      { value: "Boundary", label: "Boundary", meaning: "Excluded by preference." },
+    ],
+  },
+  depth: {
+    title: "Depth — Knowledge Depth",
+    description: "How deep the model goes.",
+    options: [
+      { value: "Aware", label: "Aware", meaning: "Conceptual understanding only." },
+      { value: "Working", label: "Working", meaning: "Can apply the knowledge in practical contexts." },
+      { value: "Proven", label: "Proven", meaning: "Demonstrated depth through formal training or sustained practice." },
+      { value: "Expert", label: "Expert", meaning: "Could teach or guide others in this domain." },
+    ],
+  },
+  currency: {
+    title: "Currency — Knowledge Recency",
+    description: "How recently exercised.",
+    options: [
+      { value: "Active", label: "Active", meaning: "Currently using this knowledge." },
+      { value: "Recent", label: "Recent", meaning: "Used within the past year or two." },
+      { value: "Dormant-intact", label: "Dormant-intact", meaning: "Not recently used, but the model is intact." },
+      { value: "Rusty", label: "Rusty", meaning: "Not recently used; would need significant refresh." },
+    ],
+  },
+};
+
+const STORAGE_KEY = "candidate-profile-taxonomy-data";
+const STORAGE_VERSION = "1";
+
+let taxonomy = null;
+let ratings = {}; // keyed by item id
+let saveTimeout = null;
+
+// DOM refs
+const mainEl = document.getElementById("main");
+const saveStatusEl = document.getElementById("save-status");
+const progressFillEl = document.getElementById("progress-fill");
+const progressTextEl = document.getElementById("progress-text");
+const modalEl = document.getElementById("scale-modal");
+const modalTitleEl = document.getElementById("modal-title");
+const modalBodyEl = document.getElementById("modal-body");
+const modalCloseEl = document.getElementById("modal-close");
+
+// Initialize
+async function init() {
+  loadSavedRatings();
+
+  try {
+    taxonomy = TAXONOMY_DATA;
+    render();
+    updateProgress();
+    updateSaveStatus("saved");
+  } catch (err) {
+    console.error("Failed to load taxonomy:", err);
+    mainEl.innerHTML = `<div class="error">Failed to load taxonomy. Please check that data/taxonomy.json exists.</div>`;
+  }
+}
+
+function loadSavedRatings() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.version === STORAGE_VERSION) {
+        ratings = parsed.ratings || {};
+      } else {
+        ratings = {};
+      }
+    }
+  } catch (err) {
+    console.error("Failed to load saved ratings:", err);
+    ratings = {};
+  }
+}
+
+function scheduleSave() {
+  updateSaveStatus("saving");
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    saveRatings();
+  }, 500);
+}
+
+function saveRatings() {
+  try {
+    const payload = {
+      version: STORAGE_VERSION,
+      timestamp: new Date().toISOString(),
+      ratings: ratings,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    updateSaveStatus("saved");
+    updateProgress();
+  } catch (err) {
+    console.error("Failed to save ratings:", err);
+    updateSaveStatus("error");
+  }
+}
+
+function updateSaveStatus(state) {
+  if (state === "saving") {
+    saveStatusEl.textContent = "Saving...";
+    saveStatusEl.className = "save-status saving";
+  } else if (state === "saved") {
+    saveStatusEl.textContent = "Saved";
+    saveStatusEl.className = "save-status saved";
+  } else if (state === "error") {
+    saveStatusEl.textContent = "Save failed";
+    saveStatusEl.className = "save-status";
+  } else {
+    saveStatusEl.textContent = state;
+    saveStatusEl.className = "save-status";
+  }
+}
+
+function countItems() {
+  let total = 0;
+  let rated = 0;
+
+  function checkItem(item) {
+    total++;
+    const rating = ratings[item.id];
+    if (rating && isRated(item, rating)) {
+      rated++;
+    }
+  }
+
+  taxonomy.sections.forEach((section) => {
+    section.items.forEach((item) => {
+      checkItem(item);
+      if (item.children) {
+        item.children.forEach(checkItem);
+      }
+    });
+  });
+
+  return { total, rated };
+}
+
+function isRated(item, rating) {
+  if (item.type === "knowledge") {
+    return rating.depth || rating.currency;
+  }
+  return rating.level || rating.fit || rating.source || rating.condition || rating.willing ||
+    rating.story || rating.evidence || rating.caveats || rating.notes;
+}
+
+function updateProgress() {
+  if (!taxonomy) return;
+  const { total, rated } = countItems();
+  const percent = total === 0 ? 0 : Math.round((rated / total) * 100);
+  progressFillEl.style.width = `${percent}%`;
+  progressTextEl.textContent = `${rated} of ${total} items rated (${percent}%)`;
+}
+
+function render() {
+  mainEl.innerHTML = "";
+
+  taxonomy.sections.forEach((section, sectionIndex) => {
+    const sectionEl = document.createElement("section");
+    sectionEl.className = "section";
+    sectionEl.id = `section-${sectionIndex}`;
+
+    const ratedCount = section.items.reduce((acc, item) => {
+      acc += (ratings[item.id] && isRated(item, ratings[item.id]) ? 1 : 0);
+      if (item.children) {
+        acc += item.children.reduce((c, child) => c + (ratings[child.id] && isRated(child, ratings[child.id]) ? 1 : 0), 0);
+      }
+      return acc;
+    }, 0);
+    const totalCount = section.items.reduce((acc, item) => {
+      acc += 1;
+      if (item.children) acc += item.children.length;
+      return acc;
+    }, 0);
+
+    const header = document.createElement("div");
+    header.className = "section-header";
+    header.innerHTML = `
+      <h2 class="section-title">${escapeHtml(section.title)} <span class="section-count">(${ratedCount}/${totalCount})</span></h2>
+      <span class="section-toggle">▼</span>
+    `;
+    header.addEventListener("click", () => {
+      sectionEl.classList.toggle("collapsed");
+    });
+    sectionEl.appendChild(header);
+
+    const body = document.createElement("div");
+    body.className = "section-body";
+
+    section.items.forEach((item) => {
+      body.appendChild(renderSkillCard(item));
+    });
+
+    sectionEl.appendChild(body);
+    mainEl.appendChild(sectionEl);
+  });
+}
+
+function renderSkillCard(item) {
+  const card = document.createElement("div");
+  card.className = "skill-card";
+  card.id = `card-${item.id}`;
+
+  const rating = ratings[item.id] || {};
+  const isKnowledge = item.type === "knowledge";
+  const tagsHtml = item.tags.map((tag) => `<span class="tag tag-${tag}">${tag}</span>`).join("");
+  const ratingSummary = buildRatingSummary(item, rating);
+
+  const header = document.createElement("div");
+  header.className = "skill-header";
+  header.innerHTML = `
+    <div class="skill-title-wrap">
+      <h3 class="skill-name">${escapeHtml(item.name)} ${tagsHtml}</h3>
+      <p class="skill-definition">${escapeHtml(item.definition)}</p>
+      ${ratingSummary}
+    </div>
+    <span class="skill-toggle">▼</span>
+  `;
+  header.addEventListener("click", () => {
+    card.classList.toggle("collapsed");
+  });
+  card.appendChild(header);
+
+  const body = document.createElement("div");
+  body.className = "skill-body";
+  if (isKnowledge) {
+    body.innerHTML = renderKnowledgeForm(item, rating);
+  } else {
+    body.innerHTML = renderSkillForm(item, rating);
+  }
+  attachFormListeners(body, item.id);
+  card.appendChild(body);
+
+  if (item.children && item.children.length > 0) {
+    const childrenList = document.createElement("div");
+    childrenList.className = "children-list";
+    item.children.forEach((child) => {
+      childrenList.appendChild(renderChildCard(child));
+    });
+    body.appendChild(childrenList);
+  }
+
+  return card;
+}
+
+function renderChildCard(child) {
+  const card = document.createElement("div");
+  card.className = "child-card";
+  card.id = `card-${child.id}`;
+
+  const rating = ratings[child.id] || {};
+  const tagsHtml = child.tags.map((tag) => `<span class="tag tag-${tag}">${tag}</span>`).join("");
+  const ratingSummary = buildRatingSummary(child, rating);
+
+  card.innerHTML = `
+    <h4 class="child-name">${escapeHtml(child.name)} ${tagsHtml}</h4>
+    <p class="child-definition">${escapeHtml(child.definition)}</p>
+    ${ratingSummary}
+    ${renderSkillForm(child, rating)}
+  `;
+  attachFormListeners(card, child.id);
+  return card;
+}
+
+function buildRatingSummary(item, rating) {
+  const pills = [];
+  if (item.type === "knowledge") {
+    if (rating.depth) pills.push({ value: rating.depth, label: "Depth" });
+    if (rating.currency) pills.push({ value: rating.currency, label: "Currency" });
+  } else {
+    if (rating.level) pills.push({ value: rating.level, label: "Level" });
+    if (rating.fit) pills.push({ value: rating.fit, label: "Fit" });
+    if (rating.willing) pills.push({ value: rating.willing, label: "Willing" });
+  }
+  if (pills.length === 0) return "";
+  return `<div class="skill-rating-summary">${pills.map((p) => `<span class="rating-pill filled">${p.label}: ${p.value}</span>`).join("")}</div>`;
+}
+
+function renderSkillForm(item, rating) {
+  return `
+    <div class="field-row">
+      ${renderSelect("level", "Level", rating.level, true)}
+      ${renderSelect("fit", "Fit", rating.fit, true)}
+      ${renderSelect("source", "Source", rating.source, true)}
+      ${renderSelect("condition", "Condition", rating.condition, true)}
+      ${renderSelect("willing", "Willing", rating.willing, true)}
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Story</label>
+        <textarea class="text-field" data-field="story" placeholder="How this shows up in your experience...">${escapeHtml(rating.story || "")}</textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Evidence</label>
+        <textarea class="text-field" data-field="evidence" placeholder="Verifiable facts others could look up...">${escapeHtml(rating.evidence || "")}</textarea>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Caveats</label>
+        <textarea class="text-field" data-field="caveats" placeholder="Conditions, limits, or context...">${escapeHtml(rating.caveats || "")}</textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Notes</label>
+        <textarea class="text-field" data-field="notes" placeholder="Extra context for the AI matcher...">${escapeHtml(rating.notes || "")}</textarea>
+      </div>
+    </div>
+    <div class="match-terms"><strong>Match terms:</strong> ${escapeHtml(item.match_terms || "—")}</div>
+  `;
+}
+
+function renderKnowledgeForm(item, rating) {
+  return `
+    <div class="field-row knowledge-row">
+      ${renderSelect("depth", "Depth", rating.depth, true)}
+      ${renderSelect("currency", "Currency", rating.currency, true)}
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Source</label>
+        <textarea class="text-field" data-field="source" placeholder="Where this knowledge came from...">${escapeHtml(rating.source || "")}</textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Story</label>
+        <textarea class="text-field" data-field="story" placeholder="How this knowledge was acquired or used...">${escapeHtml(rating.story || "")}</textarea>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Evidence</label>
+        <textarea class="text-field" data-field="evidence" placeholder="Verifiable facts others could look up...">${escapeHtml(rating.evidence || "")}</textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Caveats</label>
+        <textarea class="text-field" data-field="caveats" placeholder="Conditions, limits, or context...">${escapeHtml(rating.caveats || "")}</textarea>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Notes</label>
+        <textarea class="text-field" data-field="notes" placeholder="Extra context for the AI matcher...">${escapeHtml(rating.notes || "")}</textarea>
+      </div>
+    </div>
+    <div class="match-terms"><strong>Match terms:</strong> ${escapeHtml(item.match_terms || "—")}</div>
+  `;
+}
+
+function renderSelect(field, label, value, includeEmpty) {
+  const scale = SCALES[field];
+  const options = scale.options.map((opt) => `<option value="${escapeHtml(opt.value)}" ${value === opt.value ? "selected" : ""}>${escapeHtml(opt.label)}</option>`).join("");
+  const emptyOption = includeEmpty ? `<option value="">—</option>` : "";
+  const selected = scale.options.find((o) => o.value === value);
+  const defText = selected ? getOptionDefinition(field, selected) : "";
+  return `
+    <div class="field">
+      <label class="field-label">
+        ${label}
+        <button type="button" class="scale-help" data-scale="${field}" title="Show full scale definition">?</button>
+      </label>
+      <select class="field-select" data-field="${field}">
+        ${emptyOption}
+        ${options}
+      </select>
+      <div class="field-definition" data-def-for="${field}">${escapeHtml(defText)}</div>
+    </div>
+  `;
+}
+
+function getOptionDefinition(scaleKey, option) {
+  if (scaleKey === "level") return option.test || "";
+  if (scaleKey === "fit") return option.feels || "";
+  return option.meaning || "";
+}
+
+function updateInlineDefinition(selectEl, field, value) {
+  const container = selectEl.closest(".field");
+  if (!container) return;
+  const defEl = container.querySelector(".field-definition");
+  if (!defEl) return;
+  const scale = SCALES[field];
+  const option = scale.options.find((o) => o.value === value);
+  defEl.textContent = option ? getOptionDefinition(field, option) : "";
+}
+
+function attachFormListeners(container, itemId) {
+  container.querySelectorAll("[data-field]").forEach((el) => {
+    const field = el.dataset.field;
+    if (el.tagName === "SELECT") {
+      el.addEventListener("change", () => {
+        updateRating(itemId, field, el.value);
+        updateInlineDefinition(el, field, el.value);
+        updateRatingPill(container, itemId, field, el.value);
+        scheduleSave();
+      });
+    } else {
+      el.addEventListener("input", () => {
+        updateRating(itemId, field, el.value);
+        scheduleSave();
+      });
+    }
+  });
+
+  container.querySelectorAll(".scale-help").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showScaleModal(btn.dataset.scale);
+    });
+  });
+}
+
+function updateRating(itemId, field, value) {
+  if (!ratings[itemId]) {
+    ratings[itemId] = {};
+  }
+  if (value === "" || value === null) {
+    delete ratings[itemId][field];
+  } else {
+    ratings[itemId][field] = value;
+  }
+}
+
+function updateRatingPill(container, itemId, field, value) {
+  const card = document.getElementById(`card-${itemId}`);
+  if (!card) return;
+
+  // Find the summary div in the header
+  const summary = card.querySelector(".skill-rating-summary");
+  if (!summary) return;
+
+  const item = findItemById(itemId);
+  if (!item) return;
+
+  const rating = ratings[itemId] || {};
+  const newSummary = buildRatingSummary(item, rating);
+  const temp = document.createElement("div");
+  temp.innerHTML = newSummary;
+  summary.replaceWith(temp.firstElementChild);
+}
+
+function findItemById(itemId) {
+  for (const section of taxonomy.sections) {
+    for (const item of section.items) {
+      if (item.id === itemId) return item;
+      if (item.children) {
+        for (const child of item.children) {
+          if (child.id === itemId) return child;
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function showScaleModal(scaleKey) {
+  const scale = SCALES[scaleKey];
+  if (!scale) return;
+
+  modalTitleEl.textContent = scale.title;
+  let body = `<p>${escapeHtml(scale.description)}</p>`;
+
+  if (scaleKey === "level") {
+    body += `<table class="scale-table"><thead><tr><th>Rung</th><th>One-line test</th><th>Real-world scenario</th></tr></thead><tbody>`;
+    scale.options.forEach((opt) => {
+      body += `<tr><td><strong>${escapeHtml(opt.label)}</strong></td><td>${escapeHtml(opt.test)}</td><td>${escapeHtml(opt.scenario)}</td></tr>`;
+    });
+    body += `</tbody></table>`;
+  } else if (scaleKey === "fit") {
+    body += `<table class="scale-table"><thead><tr><th>Tag</th><th>What it feels like</th><th>Valence / Energy</th></tr></thead><tbody>`;
+    scale.options.forEach((opt) => {
+      body += `<tr><td><strong>${escapeHtml(opt.label)}</strong></td><td>${escapeHtml(opt.feels)}</td><td>${escapeHtml(opt.energy)}</td></tr>`;
+    });
+    body += `</tbody></table>`;
+  } else {
+    body += `<table class="scale-table"><thead><tr><th>Tag</th><th>Meaning</th></tr></thead><tbody>`;
+    scale.options.forEach((opt) => {
+      body += `<tr><td><strong>${escapeHtml(opt.label)}</strong></td><td>${escapeHtml(opt.meaning)}</td></tr>`;
+    });
+    body += `</tbody></table>`;
+  }
+
+  modalBodyEl.innerHTML = body;
+  modalEl.classList.add("open");
+}
+
+function closeModal() {
+  modalEl.classList.remove("open");
+}
+
+function escapeHtml(text) {
+  if (text === null || text === undefined) return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function exportData() {
+  const payload = {
+    version: STORAGE_VERSION,
+    timestamp: new Date().toISOString(),
+    ratings: ratings,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `candidate-profile-ratings-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importData(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed.ratings && typeof parsed.ratings === "object") {
+        ratings = parsed.ratings;
+        saveRatings();
+        render();
+        updateProgress();
+        alert("Ratings imported successfully.");
+      } else {
+        alert("Invalid file format: no ratings found.");
+      }
+    } catch (err) {
+      console.error("Import failed:", err);
+      alert("Failed to import file. Please ensure it is a valid JSON export.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetData() {
+  if (confirm("Reset all ratings? This will clear your auto-saved data and cannot be undone.")) {
+    ratings = {};
+    saveRatings();
+    render();
+    updateProgress();
+  }
+}
+
+// Event listeners
+document.getElementById("btn-export").addEventListener("click", exportData);
+document.getElementById("btn-export-bottom").addEventListener("click", exportData);
+document.getElementById("btn-import").addEventListener("click", () => {
+  document.getElementById("file-import").click();
+});
+document.getElementById("file-import").addEventListener("change", (e) => {
+  if (e.target.files && e.target.files[0]) {
+    importData(e.target.files[0]);
+    e.target.value = "";
+  }
+});
+document.getElementById("btn-reset").addEventListener("click", resetData);
+
+modalCloseEl.addEventListener("click", closeModal);
+modalEl.addEventListener("click", (e) => {
+  if (e.target === modalEl) closeModal();
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+// Prevent accidental back navigation on mobile swipe
+window.addEventListener("beforeunload", (e) => {
+  if (saveTimeout) {
+    saveRatings();
+  }
+});
+
+// Start
+init();
+
+</script>
+</body>
+</html>
